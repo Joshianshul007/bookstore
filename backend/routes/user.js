@@ -39,49 +39,62 @@ await newUser.save();
     }
 });
 //sign-in
-router.post("/sign-in",async (req,res)=>{
- try{
-const {username,password}=req.body;
-const existingUser=await User.findOne({username});
-if(!existingUser){
-    res.status(400).json({message: "invaild credentials  "})
-}
-const isMatch=await bcrypt.compare(password,existingUser.password);
-const authClaims=[
-{name:existingUser.username},
-{role: existingUser.role}
-];
-const token=jwt.sign({authClaims},"bookStore",{
-expiresIn: "30d",
+router.post("/sign-in", async (req, res) => {
+    try {
+        const { username, password } = req.body;
+        const existingUser = await User.findOne({ username });
+        if (!existingUser) {
+            return res.status(400).json({ message: "invalid credentials" });
+        }
+
+        bcrypt.compare(password, existingUser.password, (err, data) => {
+            if (err) {
+                return res.status(500).json({ message: "internal server error" });
+            }
+
+            if (data) {
+                const authClaims = [
+                    { name: existingUser.username },
+                    { role: existingUser.role }
+                ];
+                const token = jwt.sign({ authClaims }, "bookStore", {
+                    expiresIn: "30d",
+                });
+                return res.status(200).json({ id: existingUser._id, role: existingUser.role, token: token });
+            } else {
+                return res.status(400).json({ message: "invalid credentials" });
+            }
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: "internal server error" });
+    }
 });
-    if(isMatch)
-    { 
-        res.status(200).json({
-        id: existingUser._id,
-        role:existingUser.role,
-        token: token,
-    });
-    }
-    else{
-        res.status(400).json({message: "invaild credentials"});
-    }
-}
- 
-     catch (error) {
-        res.status(500).json({message: "internal server error"});
-    }
-});
+
+
 //get user information
 router.get("/get-user-information",authenticateToken,async(req,res)=>{
 
     try{
         const { id }=req.headers;
-        const data=await User.findById(id);
+        const data=await User.findById(id).select('-password ');
         return  res.status(200).json(data);
     }
     catch(error){ 
         res.status(500).json({message: "internal server error"});
 }
+});
+//update address
+router.put("/update-address",authenticateToken,async(req,res)=>{
+    try{
+     const {id}=req.headers;
+     const {address}=req.body;
+     await User.findByIdAndUpdate(id, { address: address});
+     return  res.status(200).json({message:"address updated successfully"});
+    }
+    catch(err){
+res.status(500).json({message: "internal server error"});
+    }
 })
 
 module.exports=router;
