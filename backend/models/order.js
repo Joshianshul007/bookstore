@@ -9,7 +9,7 @@ const order=new mongoose.Schema(
         type:mongoose.Types.ObjectId,
        ref: "user",
    },
-   user:{
+   status:{
     type: String,
    ref: "Order Placed",
    enum:["Order Placed","Out For Delivery","Delivered","Cancelled"],

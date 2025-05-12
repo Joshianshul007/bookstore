@@ -3,27 +3,27 @@ const book=new mongoose.Schema(
     {
     url:{
         type: String,
-         required: true,
+        required: true,
     },
     title:{
         type: String,
-         required: true,
+        required: true,
     },
     author:{
         type: String,
-         required: true,
+        required: true,
     },
     price:{
         type: Number,
-         required: true,
+        required: true,
     },
     desc:{
         type: String,
-         required: true,
+        required: true,
     },
     language:{
         type: String,
-         required: true,
+        required: true,
     }
     },
     {timestamps: true}

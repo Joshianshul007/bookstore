@@ -21,7 +21,7 @@ if(existingEmail){
     return res.status(400).json({message: "Email already exists"});
 }
 //check pas
-// sword's length
+// password's length
 if(password.length<=5){
     return  res.status(404).json({message: "password length should be greater than 5"});
 }
@@ -57,8 +57,8 @@ router.post("/sign-in", async (req, res) => {
                     { name: existingUser.username },
                     { role: existingUser.role }
                 ];
-                const token = jwt.sign({ authClaims }, "bookStore", {
-                    expiresIn: "30d",
+                const token = jwt.sign({ authClaims }, "bookStore123", {
+                    expiresIn: "1h",
                 });
                 return res.status(200).json({ id: existingUser._id, role: existingUser.role, token: token });
             } else {
