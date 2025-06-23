@@ -33,8 +33,10 @@ const newUser=new User({
     address:address
 });
 await newUser.save();
+console.log("user created successfully");
  res.status(200).send("successfully inserted into the database")
     } catch (error) {
+        console.error("Error during sign-up:", error);
         res.status(500).json({message: "internal server error"});
     }
 });

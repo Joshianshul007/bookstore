@@ -2,16 +2,16 @@ const router=require("express").Router();
 const User=require("../models/user");
 const jwt=require("jsonwebtoken");
 const {authenticateToken}=require("./userAuth");
-const book= require("../models/book");
+const Book= require("../models/book");
 //add book ---admin
-router.post("/add-book",authenticateToken,async (req,res)=>{
+router.post("/add-book",async (req,res)=>{
     try {
         const {id}=req.headers;
-        const user=await user.findByid(id);
-        if(user.role!="admin"){
+        const user=await User.findById(id);
+        if(user!=null && user.role!=="admin"){
              res.status(400).json({message:"you are not having access to perform admin work "});
         }
-        const book=new book({
+        const book=new Book({
             url: req.body.url,
             title: req.body.title,
             author: req.body.author,
@@ -22,6 +22,7 @@ router.post("/add-book",authenticateToken,async (req,res)=>{
         await book.save();
         res.status(200).json({message:"book added successfully"});
     } catch (error) {
+      console.error("Error adding book:", error);
         res.status(500).json("internal server error");
     }
 });
@@ -58,7 +59,7 @@ router.delete("/delete-book",authenticateToken,async (req,res)=>{
 router.get("/get-all-books", async (req, res) => {
   try {
     const books = await Book.find().sort({ createdAt: -1 });
-    console.log(books);
+    // console.log(books);
     
     return res.json({
       status: "Success",
@@ -96,5 +97,6 @@ router.get("/get-book-by-id/:id",async(req,res)=>{
     } catch (error) {
         return res.status(500).json({message: "an error occured"})
     }
-})
+});
+
 module.exports=router;

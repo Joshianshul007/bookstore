@@ -5,9 +5,9 @@ import Footer from './components/Footer/Footer'
 import { BrowserRouter as Router,Routes,Route } from 'react-router-dom'
 import AllBooks from './pages/AllBooks'
 import SignUp from './pages/SignUp'
-import Login from './pages/Login'
 import Profile from './pages/Profile'
 import Cart from './pages/Cart'
+import Login from './pages/Login'
 const App = () => {
   return ( 
     <div>
