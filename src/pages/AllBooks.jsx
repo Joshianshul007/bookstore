@@ -20,18 +20,20 @@ const AllBooks = () => {
     <div>
       {/* get all books */}
       <h1 className='text-2xl font-bold text-center my-4'>All Books</h1>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-1'>
         {data && data.map((book) => (
-          <div key={book._id} className='border p-4 rounded-lg shadow-lg'>
-            <img src={book.url} alt={book.title} className='w-full h-48 object-cover mb-2' />
-            <h2 className='text-xl font-semibold'>{book.title}</h2>
-            <p className='text-gray-600'>{book.author}</p>
+          <div key={book._id} className='border p-2 rounded-md shadow-md w-40 h-56 flex flex-col items-center'>
+            <img
+              src={book.url}
+              alt={book.title}
+              className='w-full h-32 object-cover mb-2 rounded'
+              style={{ objectFit: 'cover' }}
+            />
+            <h2 className='text-base font-semibold text-center'>{book.title}</h2>
+            <p className='text-gray-600 text-sm'>{book.author}</p>
           </div>
         ))}
-
-
-
-    </div>
+      </div>
     </div>
   )
 }

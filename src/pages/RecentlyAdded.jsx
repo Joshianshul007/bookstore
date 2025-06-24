@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
+import BookCard from '../BookCard/BookCard';
+import Loader from '../components/Loader/Loader';
+
 
 const RecentlyAdded = () => {
   const [data, setData] = useState([]);
@@ -8,23 +11,22 @@ const RecentlyAdded = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:1000/api/v1/get-recent-books');
-        setData(response.data.data); // Move this inside the async function
+        setData(response.data.data);
       } catch (error) {
         console.error('Error fetching recent books:', error);
       }
     };
     fetchData();
   }, []);
-
   return (
-    <div>
-      <h1 className='text-2xl font-bold text-center my-4'>Recently Added Books</h1>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-        {data && data.map((book) => (
-          <div key={book._id} className='border p-4 rounded-lg shadow-lg'>
-            <img src={book.url} alt={book.title} className='w-full h-48 object-cover mb-2' />
-            <h2 className='text-xl font-semibold'>{book.title}</h2>
-            <p className='text-gray-600'>{book.author}</p>
+    <div className='mt-8 px-4'>
+      <h1 className='text-3xl text-yellow-200 my-4'>Recently Added Books</h1>
+      {!data && <div className='flex items-center justify-center my-8'><Loader /><div/></div>}
+      <div className='my-4 grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4'>
+        {data && data.map((items,i) => (
+          <div key={i}>
+            <BookCard data={items} />
+            <p className='text-blue-700 text-sm font-semibold mt-1'>₹{items.price}</p>
           </div>
         ))}
       </div>
@@ -32,4 +34,7 @@ const RecentlyAdded = () => {
   )
 }
 
+            
+            
+        
 export default RecentlyAdded

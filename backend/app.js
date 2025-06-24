@@ -5,7 +5,12 @@ require("./conn/conn");
 const books = require("./routes/book");
 const userRoutes = require("./routes/user");
 const favourites = require("./routes/favourites");
+const orderRoutes = require("./routes/order"); // Assuming you have an order route
+const User = require("./models/user"); // Assuming you have a User model
 
+const cart= require("./routes/cart"); 
+// 
+// Assuming you have a cart route
 // const Order = require("./routes/order");
 const cors = require("cors");
 
@@ -17,8 +22,11 @@ app.use(cors({
 }));
 app.use(express.json());
 
+
+
 // Route mounting
 app.use("/api/v1", userRoutes);
+app.use("/api/v1", cart); // Mounting the cart route
 
 // app.use("/api/v1", Order);
 app.use("/api/v1", favourites);
