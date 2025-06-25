@@ -2,9 +2,9 @@ const router=require("express").Router();
 const User=require("../models/user");
 const jwt=require("jsonwebtoken");
 const {authenticateToken}=require("./userAuth");
+const {verifyToken}=require("./userAuth");
 const Book= require("../models/book");
-//add book ---admin
-router.post("/add-book",async (req,res)=>{
+router.post("/add-book",authenticateToken,async (req,res)=>{
     try {
         const {id}=req.headers;
         const user=await User.findById(id);
@@ -56,7 +56,7 @@ router.delete("/delete-book",authenticateToken,async (req,res)=>{
     }
 });
 //get all books
-router.get("/get-all-books", async (req, res) => {
+router.get("/get-all-books",authenticateToken, async (req, res) => {
   try {
     const books = await Book.find().sort({ createdAt: -1 });
     // console.log(books);
@@ -72,7 +72,7 @@ router.get("/get-all-books", async (req, res) => {
   }
 });
 //get recently books
-router.get("/get-recent-books", async (req, res) => {
+router.get("/get-recent-books",authenticateToken, async (req, res) => {
   try {
     const books = await Book.find().sort({ createdAt: -1 }).limit(4);
     return res.json({
@@ -86,15 +86,17 @@ router.get("/get-recent-books", async (req, res) => {
   }
 });
 //get book by id
-router.get("/get-book-by-id/:id",async(req,res)=>{
+router.get("/get-book-by-id/:id",authenticateToken,async(req,res)=>{
     try {
         const {id}=req.params;
-        const book=await Book.findByid(id);
+        console.log(id);
+        const book=await Book.findById(id);
         return res.json({
-            status: success,
+            status: 'success',
             data: book
         })
     } catch (error) {
+        console.error("Error fetching book by id:", error);
         return res.status(500).json({message: "an error occured"})
     }
 });

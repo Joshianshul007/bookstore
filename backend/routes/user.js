@@ -41,7 +41,7 @@ console.log("user created successfully");
     }
 });
 //sign-in
-router.post("/sign-in", async (req, res) => {
+router.post("/sign-in",authenticateToken, async (req, res) => {
     try {
         const { username, password } = req.body;
         const existingUser = await User.findOne({ username });

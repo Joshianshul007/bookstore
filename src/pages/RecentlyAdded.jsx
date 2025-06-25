@@ -26,7 +26,7 @@ const RecentlyAdded = () => {
         {data && data.map((items,i) => (
           <div key={i}>
             <BookCard data={items} />
-            <p className='text-blue-700 text-sm font-semibold mt-1'>₹{items.price}</p>
+            {/* <p className='text-blue-700 text-sm font-semibold mt-1'>₹{items.price}</p> */}
           </div>
         ))}
       </div>
