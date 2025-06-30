@@ -50,7 +50,7 @@ router.delete('/remove-from-cart/:bookid', authenticateToken, async (req, res) =
     }
     });
 // get cart of particular user
-router.get('/get-cart', async (req, res) => {
+router.get('/get-cart', authenticateToken, async (req, res) => {
     try {
         const { id } = req.headers; // Assuming id is sent in the request headers
         const userData = await User.findById(id).populate('cart');

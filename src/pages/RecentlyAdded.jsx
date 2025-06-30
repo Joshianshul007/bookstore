@@ -4,16 +4,21 @@ import BookCard from '../BookCard/BookCard';
 import Loader from '../components/Loader/Loader';
 
 
-const RecentlyAdded = () => {
-  const [data, setData] = useState([]);
 
-  useEffect(() => {
+const RecentlyAdded = () => {
+  const [data,setData]=useState('')
+ useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:1000/api/v1/get-recent-books');
+        const token = localStorage.getItem('token');
+        const response = await axios.get('http://localhost:1000/api/v1/get-recent-books', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setData(response.data.data);
       } catch (error) {
-        console.error('Error fetching recent books:', error);
+        console.error('Error fetching all books:', error);
       }
     };
     fetchData();

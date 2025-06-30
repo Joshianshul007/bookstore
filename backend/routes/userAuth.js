@@ -11,7 +11,7 @@ return res
 .status(403)
 .json(err); 
 } 
-console.log(token);
+
 req.user=user; 
 next(); 
 });

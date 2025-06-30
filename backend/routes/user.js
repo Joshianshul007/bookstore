@@ -41,10 +41,10 @@ console.log("user created successfully");
     }
 });
 //sign-in
-router.post("/sign-in",authenticateToken, async (req, res) => {
+router.post("/login", async (req, res) => {
     try {
-        const { username, password } = req.body;
-        const existingUser = await User.findOne({ username });
+        const { email, password } = req.body;
+        const existingUser = await User.findOne({ email });
         if (!existingUser) {
             return res.status(400).json({ message: "invalid credentials" });
         }
@@ -56,12 +56,13 @@ router.post("/sign-in",authenticateToken, async (req, res) => {
 
             if (data) {
                 const authClaims = [
-                    { name: existingUser.username },
+                    { name: existingUser.email },
                     { role: existingUser.role }
                 ];
                 const token = jwt.sign({ authClaims }, "bookStore123", {
                     expiresIn: "1h",
                 });
+                
                 return res.status(200).json({ id: existingUser._id, role: existingUser.role, token: token });
             } else {
                 return res.status(400).json({ message: "invalid credentials" });
@@ -69,6 +70,7 @@ router.post("/sign-in",authenticateToken, async (req, res) => {
         });
 
     } catch (error) {
+        console.log('Error : '+error)
         res.status(500).json({ message: "internal server error" });
     }
 });

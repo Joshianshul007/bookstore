@@ -59,8 +59,6 @@ router.delete("/delete-book",authenticateToken,async (req,res)=>{
 router.get("/get-all-books",authenticateToken, async (req, res) => {
   try {
     const books = await Book.find().sort({ createdAt: -1 });
-    // console.log(books);
-    
     return res.json({
       status: "Success",
       data: books,
@@ -86,7 +84,7 @@ router.get("/get-recent-books",authenticateToken, async (req, res) => {
   }
 });
 //get book by id
-router.get("/get-book-by-id/:id",authenticateToken,async(req,res)=>{
+router.get("/get-book-by-id/:id",authenticateToken, async (req,res) => {
     try {
         const {id}=req.params;
         console.log(id);

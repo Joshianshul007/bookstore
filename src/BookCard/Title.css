@@ -1,0 +1,10 @@
+/* Add this to your BookCard CSS file */
+.two-line-ellipsis {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;     /* Limit to 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  min-height: 2.6em;         /* Adjust based on your font-size/line-height */
+}

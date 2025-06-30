@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 // Login component for a React application
 // This component handles user login functionality, including form submission and validation.
 
 function Login() {
 
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -32,10 +32,11 @@ function Login() {
     e.preventDefault();
     // Validate the form inputs before making the API call
     if (validate()) {
-      axios.post('http://localhost:1000/api/v1/sign-in', { username, password })
+      axios.post('http://localhost:1000/api/v1/login', { email, password })
         .then(response => {
-          navigate('/cart');
-          console.log('Login successful:', response.data);
+          console.log('Login successful:', response.data.role);
+          localStorage.setItem('token',response.data.token);
+          navigate("/all-books")
         })
         .catch(error => {
           console.error('Login error:', error);
@@ -54,7 +55,7 @@ function Login() {
       justifyContent: 'center',
       alignItems: 'center',
       height: '100vh',
-      background: '#ffffff url(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/bdd9af75-6e48-4f4b-8e18-a733fbec52d3/derh4hf-5393d9dd-07f4-46f1-8451-c9a0327dd6ac.png/v1/fit/w_828,h_1282,q_70,strp/wallpaper_trafalgar_law_by_manodinha_derh4hf-414w-2x.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTkyMCIsInBhdGgiOiJcL2ZcL2JkZDlhZjc1LTZlNDgtNGY0Yi04ZTE4LWE3MzNmYmVjNTJkM1wvZGVyaDRoZi01MzkzZDlkZC0wN2Y0LTQ2ZjEtODQ1MS1jOWEwMzI3ZGQ2YWMucG5nIiwid2lkdGgiOiI8PTEyNDAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.et30nnuOByLvwT8JK-652mYDazctMI8A9SCYdMvb3ZM) center center/auto no-repeat content-box local'
+      background: '#ffffff url(https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     }}>
       <form onSubmit={handleSubmit} style={{
         backgroundColor: '#f0f0f0',
@@ -69,8 +70,8 @@ function Login() {
           <input
             type="text"
             id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             style={{ width: '100%', padding: '8px', marginBottom: '10px' }}
           />
           {errors.username && <p style={{ color: 'red' }}>{errors.username}</p>}
@@ -96,12 +97,11 @@ function Login() {
           borderRadius: '4px',
           cursor: 'pointer'
         }}>Login</button>
+      
         <p style={{ textAlign: 'center', marginTop: '10px' }}>
-          Don't have an account? <Link to="/signup">Sign Up</Link>
+          Don't have an account?  <br /> <Link to="/signup">Sign Up</Link>
         </p>
-        <p style={{ textAlign: 'center' }}>
-          <Link to="/card" style={{ textDecoration: 'none', color: '#007BFF' }}>Card</Link>
-        </p>
+       
       </form>
     </div>
   )

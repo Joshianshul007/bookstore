@@ -11,14 +11,17 @@ const ViewBookDetails = () => {
 
   useEffect(() => {
     const fetchBookDetails = async () => {
+      const token=localStorage.getItem('token');
       try {
-        const response = await axios.get(`http://localhost:1000/api/v1/get-book-by-id/${id}`);
+        const response = await axios.get(`http://localhost:1000/api/v1/get-book-by-id/${id}`,{headers:{Authorization: `Bearer ${token}`}});
         setBookDetails(response.data.data);
       } catch (error) {
         console.error('Error fetching book details:', error);
       } finally {
         setLoading(false);
       }
+      
+
     };
     fetchBookDetails();
   }, [id]);
