@@ -4,6 +4,8 @@ const User=require("../models/user");
 const bcrypt=require("bcryptjs");
 const jwt=require("jsonwebtoken");
 const {authenticateToken}=require("./userAuth");
+
+
 router.post("/sign-up",async(req,res)=>{
     try {
         const {username,email,password,address}=req.body;
@@ -80,6 +82,7 @@ router.post("/login", async (req, res) => {
 router.get("/get-user-information",authenticateToken,async(req,res)=>{
 
     try{
+        
         const { id }=req.headers;
         const data=await User.findById(id).select('-password ');
         return  res.status(200).json(data);

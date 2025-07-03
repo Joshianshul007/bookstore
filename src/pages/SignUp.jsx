@@ -11,6 +11,7 @@ const SignUp = () => {
   const [success, setSuccess] = useState('');
   const navigate = useNavigate();
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');

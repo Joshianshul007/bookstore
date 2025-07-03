@@ -5,9 +5,9 @@ const { authenticateToken } = require('./userAuth');
 // create add to cart functionality
 router.put('/add-to-cart', authenticateToken, async (req, res) => {
     try {
-        const { bookId, id } = req.headers; // Assuming bookId and id are sent in the request body
+        const { bookid, id } = req.headers; // Assuming bookId and id are sent in the request body
         const userData = await User.findById(id);
-        const isBookInCart = userData.cart.includes(bookId);
+        const isBookInCart = userData.cart.includes(bookid);
         if (isBookInCart) {
             return res.status(200).json({ 
                 message: 'Book is already in cart',
@@ -16,7 +16,7 @@ router.put('/add-to-cart', authenticateToken, async (req, res) => {
         }
         await User.findByIdAndUpdate(id, {
             $push: {
-                cart: bookId
+                cart: bookid
             }
         });
         return res.status(200).json({ 

@@ -14,6 +14,7 @@ const ViewBookDetails = () => {
       const token=localStorage.getItem('token');
       try {
         const response = await axios.get(`http://localhost:1000/api/v1/get-book-by-id/${id}`,{headers:{Authorization: `Bearer ${token}`}});
+        console.log(response.data)
         setBookDetails(response.data.data);
       } catch (error) {
         console.error('Error fetching book details:', error);

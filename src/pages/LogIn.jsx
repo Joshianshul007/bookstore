@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import { authActions } from '../store/auth';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 // Login component for a React application
 // This component handles user login functionality, including form submission and validation.
@@ -11,6 +13,7 @@ function Login() {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // Function to validate the form inputs
   const validate = () => {
@@ -35,8 +38,12 @@ function Login() {
       axios.post('http://localhost:1000/api/v1/login', { email, password })
         .then(response => {
           console.log('Login successful:', response.data.role);
+          dispatch(authActions.login());
+          dispatch(authActions.changeRole(response.data.role));
           localStorage.setItem('token',response.data.token);
-          navigate("/all-books")
+          localStorage.setItem('id', response.data.id);
+          localStorage.setItem('role', response.data.role);
+          navigate("/profile")
         })
         .catch(error => {
           console.error('Login error:', error);
@@ -49,7 +56,7 @@ function Login() {
     }
   }
 
-  return (
+  return ( 
     <div style={{
       display: 'flex',
       justifyContent: 'center',

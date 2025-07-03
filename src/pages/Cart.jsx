@@ -12,11 +12,8 @@ const Cart = () => {
         // Replace USER_OBJECT_ID_HERE with the actual logged-in user's id
         const response = await axios.get('http://localhost:1000/api/v1/get-cart', {
           headers: {
-            id: "68202ad5353d9a8cdb6b3ed0s",
-            
-        
-            // <-- Set this dynamically in real app
-             Authorization: `Bearer ${'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRoQ2xhaW1zIjpbeyJuYW1lIjoiZGVlc2h1MTIzIn0seyJyb2xlIjoiYWRtaW4ifV0sImlhdCI6MTc1MDg1MjMyMCwiZXhwIjoxNzUwODU1OTIwfQ.hB76nbR-tOKPP8iEdze5FXL70e1ODVS764jowNJav90'}` // <-- Set this dynamically in real app 
+            id:localStorage.getItem('id') ,
+            Authorization:`Bearer ${localStorage.getItem('token')}`
           }
         });
         setCartItems(response.data.data);
